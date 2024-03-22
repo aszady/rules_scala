@@ -1,13 +1,40 @@
 # Cross compilation support
 
-The support for cross-compilation is currently under development.
+Read *Quick start* for an information on how to use cross compilation.
+
+Following sections contain information useful especially for toolchain & rule developers.
+
+## Quick start
+`scala_config` repository rule accepts two parameters related to Scala version:
+* `scala_version` – a single, default version;
+* `scala_versions` – a list of versions to make available for use.
+
+The first one, `scala_version`, will be used as a default, but it can be overridden for specific targets for any version from the `scala_versions`.
+
+Multiple rules, such as:
+- [scala_library](scala/private/rules/scala_library.bzl)
+- [scala_binary](scala/private/rules/scala_binary.bzl)
+- [scala_repl](scala/private/rules/scala_repl.bzl)
+- [scala_test](scala/private/rules/scala_test.bzl)
+
+support such override via the `scala_version` attribute, e.g.:
+```starlark
+scala_library(
+    name = ...
+    ...
+    scala_version = "2.12.18",
+    ...
+)
+```
+
+Following sections
 
 ## Version configuration
 
 `scala_config` creates the repository `@io_bazel_rules_scala_config`.
 File created there, `config.bzl`, consists of many variables. In particular:
 * `SCALA_VERSION` – representing the default Scala version, e.g. `"3.3.1"`;
-* `SCALA_VERSIONS` – representing all configured Scala versions (currently one), e.g. `["3.3.1"]`.
+* `SCALA_VERSIONS` – representing all configured Scala versions, e.g. `["2.12.18", "3.3.1"]`.
 
 
 ## Build settings
@@ -22,6 +49,7 @@ string_setting(
     values = ["3.3.1"],
     visibility = ["//visibility:public"],
 )
+...
 ```
 This build setting can be subject of change by [transitions](https://bazel.build/extending/config#user-defined-transitions) (within allowed `values`).
 
@@ -32,6 +60,7 @@ config_setting(
     name = "scala_version_3_3_1",
     flag_values = {":scala_version": "3.3.1"},
 )
+...
 ```
 The `name` of `config_setting` corresponds to `"scala_version" + version_suffix(scala_version)`.
 One may use this config setting in `select()` e.g. to provide dependencies relevant to a currently used Scala version.
