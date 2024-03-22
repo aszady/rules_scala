@@ -64,7 +64,10 @@ load("//specs2:specs2_junit.bzl", "specs2_junit_repositories")
 
 specs2_junit_repositories()
 
-register_toolchains("//testing:testing_toolchain")
+load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
+load("//scala:scala_cross_version.bzl", "version_suffix")
+
+register_toolchains("//testing:testing_toolchain" + version_suffix(SCALA_VERSION))
 
 load("//scala/scalafmt:scalafmt_repositories.bzl", "scalafmt_default_config", "scalafmt_repositories")
 

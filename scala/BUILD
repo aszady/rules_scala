@@ -1,17 +1,22 @@
 load("@rules_java//java:defs.bzl", "java_import", "java_library")
 load("//scala:providers.bzl", "declare_deps_provider")
+load("//scala:scala_cross_version.bzl", "version_suffix")
 load("//scala/private:macros/setup_scala_toolchain.bzl", "default_deps", "setup_scala_toolchain")
-load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
+load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION", "SCALA_VERSIONS")
 
 toolchain_type(
     name = "toolchain_type",
     visibility = ["//visibility:public"],
 )
 
-setup_scala_toolchain(
-    name = "default_toolchain",
-    use_argument_file_in_runner = True,
-)
+[
+    setup_scala_toolchain(
+        name = "toolchain" + version_suffix(scala_version),
+        scala_version = scala_version,
+        use_argument_file_in_runner = True,
+    )
+    for scala_version in SCALA_VERSIONS
+]
 
 setup_scala_toolchain(
     name = "unused_dependency_checker_error_toolchain",

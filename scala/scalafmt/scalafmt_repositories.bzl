@@ -57,4 +57,10 @@ def scalafmt_repositories(
             maven_servers = maven_servers,
             overriden_artifacts = overriden_artifacts,
         )
-    native.register_toolchains("@io_bazel_rules_scala//scala/scalafmt:scalafmt_toolchain")
+    _register_scalaftm_toolchains()
+
+def _register_scalaftm_toolchains():
+    for scala_version in SCALA_VERSIONS:
+        native.register_toolchains(
+            "@io_bazel_rules_scala//scala/scalafmt:%s_scalafmt_toolchain" % sanitize_version(scala_version),
+        )
