@@ -1,9 +1,11 @@
-load("//scala:scala_toolchain.bzl", "scala_toolchain")
+load("//scala:scala_toolchain.bzl", "scala_toolchain", "default_dep_providers")
 load("//scala:scala.bzl", "scala_library")
 load("//test/semanticdb:rules.bzl", "semanticdb_vars_script")
+load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
 
 scala_toolchain(
     name = "semanticdb_bundle_toolchain_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     enable_semanticdb = True,
     semanticdb_bundle_in_jar = True,
     visibility = ["//visibility:public"],
@@ -18,6 +20,7 @@ toolchain(
 
 scala_toolchain(
     name = "semanticdb_nobundle_toolchain_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     enable_semanticdb = True,
     semanticdb_bundle_in_jar = False,
     visibility = ["//visibility:public"],

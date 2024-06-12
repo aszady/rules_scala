@@ -15,6 +15,7 @@ make_scala_proto_aspect = _make_scala_proto_aspect
 
 def scala_proto_repositories(**kwargs):
     scala_proto_default_repositories(**kwargs)
+    native.register_toolchains("@io_bazel_rules_scala//scala_proto:default_deps_toolchain")
 
 def scala_proto_library(**kwargs):
     _scala_proto_library(**kwargs)

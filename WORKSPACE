@@ -79,20 +79,13 @@ load("//test/proto_cross_repo_boundary:repo.bzl", "proto_cross_repo_boundary_rep
 
 proto_cross_repo_boundary_repository()
 
-new_local_repository(
-    name = "test_new_local_repo",
-    build_file_content =
-        """
-filegroup(
-    name = "data",
-    srcs = glob(["**/*.txt"]),
-    visibility = ["//visibility:public"],
-)
-""",
-    path = "third_party/test/new_local_repo",
-)
+load("//third_party/test/new_local_repo:repo.bzl", "test_new_local_repo")
 
-local_repository(
+test_new_local_repo()
+
+load(":extensions/extension_utils.bzl", "starlarkified_local_repository")
+
+starlarkified_local_repository(
     name = "example_external_workspace",
     path = "third_party/test/example_external_workspace",
 )

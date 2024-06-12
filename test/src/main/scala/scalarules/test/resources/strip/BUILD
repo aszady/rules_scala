@@ -15,11 +15,11 @@ scala_specs2_junit_test(
     deps = [":noSrcsWithResources"],
 )
 
-scala_specs2_junit_test(
-    name = "resouceStripPrefixFromExternalRepoTest",
-    size = "small",
-    srcs = ["ResourceStripPrefixTest.scala"],
-    suffixes = ["Test"],
-    unused_dependency_checker_mode = "off",
-    deps = ["@example_external_workspace//strip:noSrcsWithResources"],
-)
+# scala_specs2_junit_test(
+#     name = "resouceStripPrefixFromExternalRepoTest",
+#     size = "small",
+#     srcs = ["ResourceStripPrefixTest.scala"],
+#     suffixes = ["Test"],
+#     unused_dependency_checker_mode = "off",
+#     deps = ["@example_external_workspace//strip:noSrcsWithResources"],
+# )

@@ -38,7 +38,7 @@ load(
     "@io_bazel_rules_scala//scala:scala_maven_import_external.bzl",
     _scala_maven_import_external = "scala_maven_import_external",
 )
-load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
+# load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
 
 artifacts_by_major_scala_version = {
     "2.11": _artifacts_2_11,
@@ -59,7 +59,8 @@ scala_version_by_major_scala_version = {
 }
 
 def repositories(
-        scala_version = None,
+        scala_version,# = None,
+        global_ = False,
         for_artifact_ids = [],
         maven_servers = default_maven_server_urls(),
         overriden_artifacts = {},
@@ -74,7 +75,7 @@ def repositories(
     """
 
     suffix = version_suffix(scala_version) if scala_version else ""
-    scala_version = scala_version or SCALA_VERSION
+#     scala_version = scala_version or SCALA_VERSION
     major_scala_version = extract_major_version(scala_version)
 
     if validate_scala_version:
@@ -103,7 +104,8 @@ def repositories(
         # For backward compatibility: non-suffixed repo pointing to the suffixed one,
         # See: https://github.com/bazelbuild/rules_scala/pull/1573
         # Hopefully we can deprecate and remove it one day.
-        if suffix and scala_version == SCALA_VERSION:
+#         if suffix and scala_version == SCALA_VERSION:
+        if global_:
             _alias_repository(name = id, target = id + suffix)
 
 def _alias_repository_impl(rctx):
@@ -132,3 +134,46 @@ _alias_repository = repository_rule(
         "target": attr.string(mandatory = True),
     },
 )
+
+def repository(
+        id,
+        maven_servers = default_maven_server_urls(),
+        fetch_sources = True,
+        validate_scala_version = False):
+    return repositories(
+        for_artifact_ids = [id],
+    )
+#     if validate_scala_version:
+#         repository_scala_version = scala_version_by_major_scala_version[SCALA_MAJOR_VERSION]
+#         if not SCALA_VERSION == repository_scala_version:
+#             fail("Scala config (%s) version does not match repository version (%s)" % (SCALA_VERSION, repository_scala_version))
+#     artifacts = artifacts_by_major_scala_version[SCALA_MAJOR_VERSION]
+#
+#     # workaround to satisfy bzlmod builds
+#     # in a MODULE.bazel file we don't know which scala version is set,
+#     # so we register every possible repo, even if the given version does not require it
+#     if artifacts[id].get("dummy", False) == True:
+#         dummy_repo(repo_name = id)
+#     else:
+#         _scala_maven_import_external(
+#             name = id,
+#             repo_name = id,
+#             artifact = artifacts[id]["artifact"],
+#             artifact_sha256 = artifacts[id]["sha256"],
+#             licenses = ["notice"],
+#             server_urls = maven_servers,
+#             deps = artifacts[id].get("deps", []),
+#             runtime_deps = artifacts[id].get("runtime_deps", []),
+#             testonly_ = artifacts[id].get("testonly", False),
+#             fetch_sources = fetch_sources,
+#         )
+
+def _dummy_repo_impl(repository_ctx):
+    repository_ctx.file("BUILD")
+
+_dummy_repo = repository_rule(
+    implementation = _dummy_repo_impl,
+)
+
+def dummy_repo(repo_name):
+    _dummy_repo(name = repo_name)

@@ -7,7 +7,7 @@ load(
     _default_maven_server_urls = "default_maven_server_urls",
 )
 load("//third_party/repositories:repositories.bzl", "repositories")
-load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSIONS")
+# load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSIONS")
 
 def _dt_patched_compiler_impl(rctx):
     # Need to give the file a .zip extension so rctx.extract knows what type of archive it is
@@ -81,7 +81,7 @@ def dt_patched_compiler_setup(scala_version, scala_compiler_srcjar = None):
             integrity = srcjar.get("integrity"),
         )
 
-def rules_scala_setup(scala_compiler_srcjar = None):
+def rules_scala_setup(scala_versions, scala_compiler_srcjar = None):
     if not native.existing_rule("bazel_skylib"):
         http_archive(
             name = "bazel_skylib",
@@ -120,7 +120,8 @@ def rules_scala_setup(scala_compiler_srcjar = None):
             ],
         )
 
-    for scala_version in SCALA_VERSIONS:
+#     for scala_version in SCALA_VERSIONS:
+    for scala_version in scala_versions:
         dt_patched_compiler_setup(scala_version, scala_compiler_srcjar)
 
 def _artifact_ids(scala_version):
@@ -143,11 +144,13 @@ def _artifact_ids(scala_version):
     ]
 
 def rules_scala_toolchain_deps_repositories(
+        scala_versions,
         maven_servers = _default_maven_server_urls(),
         overriden_artifacts = {},
         fetch_sources = False,
         validate_scala_version = True):
-    for scala_version in SCALA_VERSIONS:
+#     for scala_version in SCALA_VERSIONS:
+    for scala_version in scala_versions:
         repositories(
             scala_version = scala_version,
             for_artifact_ids = _artifact_ids(scala_version),

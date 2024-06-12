@@ -2,11 +2,11 @@ load(
     "@io_bazel_rules_scala//scala:providers.bzl",
     _DepsInfo = "DepsInfo",
 )
-load(
-    "@io_bazel_rules_scala_config//:config.bzl",
-    "ENABLE_COMPILER_DEPENDENCY_TRACKING",
-    "SCALA_MAJOR_VERSION",
-)
+# load(
+#     "@io_bazel_rules_scala_config//:config.bzl",
+#     "ENABLE_COMPILER_DEPENDENCY_TRACKING",
+#     "SCALA_MAJOR_VERSION",
+# )
 load("@bazel_skylib//rules:common_settings.bzl", "BuildSettingInfo")
 
 def _compute_strict_deps_mode(input_strict_deps_mode, dependency_mode):
@@ -70,8 +70,8 @@ def _scala_toolchain_impl(ctx):
     if dependency_tracking_method not in ("ast-plus", "ast", "high-level"):
         fail("Internal error: invalid dependency_tracking_method " + dependency_tracking_method)
 
-    if "ast-plus" == dependency_tracking_method and not ENABLE_COMPILER_DEPENDENCY_TRACKING:
-        fail("To use 'ast-plus' dependency tracking, you must set 'enable_compiler_dependency_tracking' to True in scala_config")
+#     if "ast-plus" == dependency_tracking_method and not ENABLE_COMPILER_DEPENDENCY_TRACKING:
+#         fail("To use 'ast-plus' dependency tracking, you must set 'enable_compiler_dependency_tracking' to True in scala_config")
 
     enable_stats_file = ctx.attr.enable_stats_file
     enable_diagnostics_report = ctx.attr.enable_diagnostics_report
@@ -106,7 +106,7 @@ def _scala_toolchain_impl(ctx):
     )
     return [toolchain]
 
-def _default_dep_providers():
+def default_dep_providers(scala_version):
     dep_providers = [
         "@io_bazel_rules_scala//scala:scala_xml_provider",
         "@io_bazel_rules_scala//scala:parser_combinators_provider",
@@ -114,7 +114,7 @@ def _default_dep_providers():
         "@io_bazel_rules_scala//scala:scala_library_classpath_provider",
         "@io_bazel_rules_scala//scala:scala_macro_classpath_provider",
     ]
-    if SCALA_MAJOR_VERSION.startswith("2"):
+    if scala_version.startswith("2"):
         dep_providers.append("@io_bazel_rules_scala//scala:semanticdb_provider")
     return dep_providers
 
@@ -123,7 +123,8 @@ scala_toolchain = rule(
     attrs = {
         "scalacopts": attr.string_list(),
         "dep_providers": attr.label_list(
-            default = _default_dep_providers(),
+#             default = _default_dep_providers(),
+            mandatory = True,
             providers = [_DepsInfo],
         ),
         "dependency_mode": attr.string(

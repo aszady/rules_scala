@@ -26,12 +26,14 @@ alias(
 
 setup_scala_toolchain(
     name = "unused_dependency_checker_error_toolchain",
+    scala_version = SCALA_VERSION,
     dependency_tracking_method = "ast-plus",
     unused_dependency_checker_mode = "error",
 )
 
 setup_scala_toolchain(
     name = "minimal_direct_source_deps",
+    scala_version = SCALA_VERSION,
     dependency_mode = "plus-one",
     dependency_tracking_method = "ast",
     strict_deps_mode = "error",
@@ -86,8 +88,8 @@ declare_deps_provider(
 )
 
 declare_deps_provider(
-    name = "semanticdb_provider",
     deps_id = "semanticdb",
+    name = "semanticdb_provider",
     visibility = ["//visibility:public"],
     deps = default_deps("semanticdb", SCALA_VERSION),
 )

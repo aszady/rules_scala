@@ -1,4 +1,4 @@
-load("//scala:scala_toolchain.bzl", "scala_toolchain")
+load("//scala:scala_toolchain.bzl", "scala_toolchain", "default_dep_providers")
 load(
     "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
     "BASE_JDK9_JVM_OPTS",
@@ -6,6 +6,7 @@ load(
     "DEFAULT_TOOLCHAIN_CONFIGURATION",
     "default_java_toolchain",
 )
+load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
 
 default_java_toolchain(
     name = "java21_toolchain",
@@ -24,6 +25,7 @@ default_java_toolchain(
 
 scala_toolchain(
     name = "ast_plus_one_deps_unused_deps_warn_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "plus-one",
     dependency_tracking_method = "ast",
     unused_dependency_checker_mode = "warn",
@@ -39,6 +41,7 @@ toolchain(
 
 scala_toolchain(
     name = "ast_plus_one_deps_unused_deps_error_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "plus-one",
     dependency_tracking_method = "ast",
     unused_dependency_checker_mode = "error",
@@ -54,6 +57,7 @@ toolchain(
 
 scala_toolchain(
     name = "ast_plus_one_deps_strict_deps_warn_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "plus-one",
     dependency_tracking_method = "ast",
     strict_deps_mode = "warn",
@@ -69,6 +73,7 @@ toolchain(
 
 scala_toolchain(
     name = "ast_plus_one_deps_strict_deps_error_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "plus-one",
     dependency_tracking_method = "ast",
     strict_deps_mode = "error",
@@ -84,6 +89,7 @@ toolchain(
 
 scala_toolchain(
     name = "high_level_transitive_deps_strict_deps_warn_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "transitive",
     dependency_tracking_method = "high-level",
     strict_deps_mode = "warn",
@@ -99,6 +105,7 @@ toolchain(
 
 scala_toolchain(
     name = "high_level_transitive_deps_strict_deps_error_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "transitive",
     dependency_tracking_method = "high-level",
     strict_deps_mode = "error",
@@ -114,6 +121,7 @@ toolchain(
 
 scala_toolchain(
     name = "high_level_direct_deps_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     dependency_mode = "direct",
     dependency_tracking_method = "high-level",
     strict_deps_mode = "off",
@@ -129,6 +137,7 @@ toolchain(
 
 scala_toolchain(
     name = "enable_stats_file_disabled_toolchain_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     enable_stats_file = False,
     visibility = ["//visibility:public"],
 )
@@ -142,6 +151,7 @@ toolchain(
 
 scala_toolchain(
     name = "use_argument_file_in_runner_impl",
+    dep_providers = default_dep_providers(SCALA_VERSION),
     use_argument_file_in_runner = True,
     visibility = ["//visibility:public"],
 )

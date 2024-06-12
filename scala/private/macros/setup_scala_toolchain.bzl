@@ -1,14 +1,14 @@
 load("//scala:scala_toolchain.bzl", "scala_toolchain")
 load("//scala:providers.bzl", "declare_deps_provider")
 load("//scala:scala_cross_version.bzl", "version_suffix")
-load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
+# load("@io_bazel_rules_scala_config//:config.bzl", "SCALA_VERSION")
 
 def setup_scala_toolchain(
         name,
+        scala_version,# = SCALA_VERSION,
         scala_compile_classpath = None,
         scala_library_classpath = None,
         scala_macro_classpath = None,
-        scala_version = SCALA_VERSION,
         scala_xml_deps = None,
         parser_combinators_deps = None,
         semanticdb_deps = None,

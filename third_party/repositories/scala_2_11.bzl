@@ -213,8 +213,8 @@ artifacts = {
         ],
     },
     "com_google_protobuf_protobuf_java": {
-        "artifact": "com.google.protobuf:protobuf-java:3.10.0",
-        "sha256": "161d7d61a8cb3970891c299578702fd079646e032329d6c2cabf998d191437c9",
+        "artifact": "com.google.protobuf:protobuf-java:3.21.7",
+        "sha256": "a204ec68748a7b26351ae37a311e8de468f248d1916d5f8dbe812c1289d0a0ff",
     },
     "com_geirsson_metaconfig_core": {
         "artifact": "com.geirsson:metaconfig-core_2.11:0.9.10",
@@ -513,5 +513,20 @@ artifacts = {
         "testonly": True,
         "artifact": "org.typelevel:kind-projector_%s:0.13.2" % scala_version,
         "sha256": "8f7287973f7f8fc9372b59d36120e3fac5839344f65c8f640351794e8907145c",
+    },
+    "io_bazel_rules_scala_scala_interfaces": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_tasty_core": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_asm": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_library_2": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_parallel_collections": {
+        "dummy": True,
     },
 }

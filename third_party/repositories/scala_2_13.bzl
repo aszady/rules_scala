@@ -215,8 +215,8 @@ artifacts = {
         "sha256": "b8f816ad81e3546e4a75cdc74d322f02e6d84fbfa5eb1ea5e1eca666cede524c",
     },
     "com_google_protobuf_protobuf_java": {
-        "artifact": "com.google.protobuf:protobuf-java:3.10.0",
-        "sha256": "161d7d61a8cb3970891c299578702fd079646e032329d6c2cabf998d191437c9",
+        "artifact": "com.google.protobuf:protobuf-java:3.21.7",
+        "sha256": "a204ec68748a7b26351ae37a311e8de468f248d1916d5f8dbe812c1289d0a0ff",
     },
     "com_geirsson_metaconfig_core": {
         "artifact": "com.geirsson:metaconfig-core_2.13:0.9.14",
@@ -515,5 +515,17 @@ artifacts = {
         "testonly": True,
         "artifact": "org.typelevel:kind-projector_%s:0.13.2" % scala_version,
         "sha256": "4bd985e53ac950a1f130981f7ec9a2c5dffe4c2f588fc695180c6105f4a9557f",
+    },
+    "io_bazel_rules_scala_scala_interfaces": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_tasty_core": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_asm": {
+        "dummy": True,
+    },
+    "io_bazel_rules_scala_scala_library_2": {
+        "dummy": True,
     },
 }
